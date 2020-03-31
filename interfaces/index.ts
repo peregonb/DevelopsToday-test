@@ -1,4 +1,5 @@
-export type User = {
+export type PostsType = {
     id: number;
-    name: string;
+    title: string;
+    body: string;
 };
