@@ -5,7 +5,10 @@ const instance = axios.create({
     baseURL: 'https://simple-blog-api.crew.red/',
 });
 export const API = {
-    getUsers() {
+    getPosts() {
         return instance.get(`posts`).then((response) => response.data);
+    },
+    deletePost(postId: number) {
+        return instance.delete(`posts/${postId}`).then((response) => response);
     },
 };
