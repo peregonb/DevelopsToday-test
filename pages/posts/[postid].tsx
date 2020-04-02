@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { AppStateType } from '../../redux/store';
 import { deletePostTC, getSinglePostTC } from '../../redux/app-reducer';
 import { useEffect } from 'react';
-import { CommentsType } from '../../interfaces';
+import { CommentsType, PostsType } from '../../interfaces';
 import CommentInputUI from '../../components/CommentInputUI';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -38,7 +38,6 @@ const CardWrapper = styled(Card)`
         }
     }
 `;
-
 const Edit = styled(EditOutlined)`
     font-size: 16px;
     margin-right: 10px;
@@ -49,7 +48,6 @@ const Edit = styled(EditOutlined)`
         transition: color 0.3s;
     }
 `;
-
 const Remove = styled(DeleteOutlined)`
     font-size: 16px;
     cursor: pointer;
@@ -59,7 +57,6 @@ const Remove = styled(DeleteOutlined)`
         transition: color 0.3s;
     }
 `;
-
 const Comments = styled.div`
     margin-top: 20px;
 `;
@@ -67,19 +64,17 @@ const Comments = styled.div`
 type OwnPropsTypes = {
     postId: number;
 };
-
 type MapStatePropsType = {
-    singlePost: any;
+    singlePost: PostsType;
+    error: boolean;
 };
-
 type MapDispatchPropsType = {
     getSinglePostTC: (postId: number) => void;
     deletePostTC: (postId: number) => void;
 };
-
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsTypes;
 
-const Post: React.FC<PropsType> = ({ getSinglePostTC, singlePost, deletePostTC }) => {
+const Post: React.FC<PropsType> = ({ getSinglePostTC, singlePost, deletePostTC, error }) => {
     const id = useRouter().query.postid;
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
@@ -88,12 +83,11 @@ const Post: React.FC<PropsType> = ({ getSinglePostTC, singlePost, deletePostTC }
     useEffect(() => {
         if (postId) {
             getSinglePostTC(postId);
-            console.log(postId);
         }
     }, [id]);
 
     return (
-        <div>
+        <>
             {singlePost ? (
                 <>
                     <CardWrapper
@@ -107,7 +101,7 @@ const Post: React.FC<PropsType> = ({ getSinglePostTC, singlePost, deletePostTC }
                                 </Tooltip>
                             </Link>,
                             <Tooltip key={2} title="Delete post">
-                                <Remove key="delete" onClick={() => showConfirm(singlePost.id, deletePostTC)} />
+                                <Remove key="delete" onClick={() => showConfirm(singlePost.id, deletePostTC, error)} />
                             </Tooltip>,
                         ]}
                     >
@@ -127,13 +121,14 @@ const Post: React.FC<PropsType> = ({ getSinglePostTC, singlePost, deletePostTC }
             ) : (
                 <Empty />
             )}
-        </div>
+        </>
     );
 };
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         singlePost: state.app.singlePost,
+        error: state.app.error,
     };
 };
 

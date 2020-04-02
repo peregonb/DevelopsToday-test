@@ -2,13 +2,13 @@ import { API } from '../api/api';
 import { PostsType } from '../interfaces';
 
 const SET_POSTS = 'SET_POSTS';
-const IS_FETCHING = 'IS_FETCHING';
 const GET_SINGLE_POST = 'GET_SINGLE_POST';
+const ERROR = 'ERROR';
 
 const initialState = {
     posts: [] as Array<PostsType>,
     singlePost: null as PostsType | null,
-    isFetching: false,
+    error: false,
 };
 
 const appReducer = (state = initialState, action: any) => {
@@ -18,20 +18,30 @@ const appReducer = (state = initialState, action: any) => {
                 ...state,
                 posts: action.posts,
             };
-
-        case IS_FETCHING:
-            return {
-                ...state,
-                isFetching: action.isFetching,
-            };
         case GET_SINGLE_POST:
             return {
                 ...state,
                 singlePost: action.singlePost,
             };
+        case ERROR:
+            return {
+                ...state,
+                error: action.error,
+            };
         default:
             return state;
     }
+};
+
+type SetError = {
+    type: typeof ERROR;
+    error: boolean;
+};
+export const setError = (error: boolean): SetError => {
+    return {
+        type: ERROR,
+        error,
+    };
 };
 
 type SetSinglePost = {
@@ -53,18 +63,6 @@ export const setPosts = (posts: object): SetPostsType => {
     return {
         type: SET_POSTS,
         posts,
-    };
-};
-
-type SetFetchingValueType = {
-    type: typeof IS_FETCHING;
-    isFetching: boolean;
-};
-
-export const setFetchingValue = (isFetching: boolean): SetFetchingValueType => {
-    return {
-        type: IS_FETCHING,
-        isFetching,
     };
 };
 
@@ -110,8 +108,11 @@ export const getPostsTC = () => async (dispatch: any) => {
 export const deletePostTC = (postId: number) => async (dispatch: any) => {
     const response = await API.deletePost(postId);
     if (response.status === 200) {
+        dispatch(setError(false));
         const data = await API.getPosts();
         dispatch(setPosts(data));
+    } else {
+        dispatch(setError(true));
     }
 };
 

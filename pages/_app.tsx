@@ -4,6 +4,7 @@ import store from '../redux/store';
 // @ts-ignore
 import stylesheet from 'antd/dist/antd.dark.min.css';
 import LayoutContainer from '../components/LayoutContainer';
+import { NextPage } from 'next';
 
 const antdFix = `
     .ant-page-header-content{
@@ -11,7 +12,7 @@ const antdFix = `
     }
 `;
 
-const App: React.FC = ({ Component, pageProps }: any) => {
+const App: NextPage<any> = ({ Component, pageProps }) => {
     return (
         <Provider store={store}>
             <style dangerouslySetInnerHTML={{ __html: stylesheet }} />

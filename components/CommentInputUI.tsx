@@ -16,7 +16,6 @@ const Item = styled(Form.Item)`
         margin-bottom: 0 !important;
     }
 `;
-
 const Textarea = styled(Input.TextArea)`
     &:focus {
         &::placeholder {
@@ -28,16 +27,13 @@ const Textarea = styled(Input.TextArea)`
 type OwnPropsTypes = {
     postId: number;
 };
-
 type MapStatePropsType = {};
-
 type MapDispatchPropsType = {
     putCommentTC: (postId: number, body: string) => void;
 };
-
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsTypes;
-
 type RefTypes = HTMLInputElement & FormInstance;
+
 const CommentInputUI: React.FC<PropsType> = ({ postId, putCommentTC }) => {
     const form = useRef<RefTypes>(null);
 
@@ -48,23 +44,11 @@ const CommentInputUI: React.FC<PropsType> = ({ postId, putCommentTC }) => {
         }
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
-
     return (
-        <Form
-            ref={form}
-            style={{ marginTop: 20 }}
-            name="basic"
-            initialValues={{ remember: false }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-        >
+        <Form ref={form} style={{ marginTop: 20 }} name="basic" initialValues={{ remember: false }} onFinish={onFinish}>
             <Item name="postText" rules={[{ required: true, message: 'This field can`t be empty!' }]}>
                 <Textarea placeholder="What`s new going on?" />
             </Item>
-
             <Item style={{ marginTop: 11 }}>
                 <Button type="primary" htmlType="submit">
                     Send comment

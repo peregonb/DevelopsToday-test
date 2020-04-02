@@ -55,42 +55,16 @@ const PostsWrapper = styled.div`
 
 type MapStatePropsType = {
     posts: Array<PostsType>;
-    isFetching: boolean;
+    error: boolean;
 };
-
 type MapDispatchPropsType = {
     getPostsTC: () => void;
     deletePostTC: (postId: number) => void;
 };
-
 type OwnPropsType = {};
-
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
 
-const IndexPage: React.FC<PropsType> = ({ deletePostTC, getPostsTC, posts }) => {
-    // const { confirm } = Modal;
-    //
-    // const error = (): any => {
-    //     Modal.error({
-    //         title: 'Failed to delete post!',
-    //         content: 'Server is not responding.',
-    //     });
-    // };
-    // const showConfirm = (postId: number): any => {
-    //     confirm({
-    //         title: 'Do you want to delete these post?',
-    //         icon: <ExclamationCircleOutlined />,
-    //         onOk() {
-    //             return new Promise((resolve, reject) => {
-    //                 props.deletePostTC(postId);
-    //                 setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-    //             }).catch(() => {
-    //                 error();
-    //             });
-    //         },
-    //     });
-    // };
-
+const IndexPage: React.FC<PropsType> = ({ deletePostTC, getPostsTC, posts, error }) => {
     useEffect(() => {
         getPostsTC();
     }, []);
@@ -106,7 +80,10 @@ const IndexPage: React.FC<PropsType> = ({ deletePostTC, getPostsTC, posts }) => 
                                 <Link key={post.id} href={`/posts?slug=${post.id}`} as={`/posts/${post.id}`}>
                                     <EditOutlined key="edit" />
                                 </Link>,
-                                <DeleteOutlined onClick={() => showConfirm(post.id, deletePostTC)} key="delete" />,
+                                <DeleteOutlined
+                                    onClick={() => showConfirm(post.id, deletePostTC, error)}
+                                    key="delete"
+                                />,
                             ]}
                         >
                             {post.body}
@@ -123,7 +100,7 @@ const IndexPage: React.FC<PropsType> = ({ deletePostTC, getPostsTC, posts }) => 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         posts: state.app.posts,
-        isFetching: state.app.isFetching,
+        error: state.app.error,
     };
 };
 

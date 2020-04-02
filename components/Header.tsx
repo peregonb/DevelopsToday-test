@@ -10,7 +10,6 @@ const ButtonLink = styled(Button)`
         color: rgba(255, 255, 255, 0.5) !important;
     }
 `;
-
 const FlexHeader = styled(PageHeader)`
     display: flex;
     justify-content: space-between;
@@ -19,7 +18,6 @@ const FlexHeader = styled(PageHeader)`
     margin: 0 auto;
     width: 100%;
 `;
-
 const HeaderWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -27,7 +25,6 @@ const HeaderWrapper = styled.div`
     align-items: center;
     background-color: #141414;
 `;
-
 const ButtonsWrapper = styled.div`
     display: flex;
     justify-content: space-between;

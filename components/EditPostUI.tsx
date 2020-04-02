@@ -19,7 +19,6 @@ const Item = styled(Form.Item)`
         // margin-bottom: 0 !important;
     }
 `;
-
 const Textarea = styled(Input.TextArea)`
     &:focus {
         &::placeholder {
@@ -32,25 +31,21 @@ type OwnPropsTypes = {
     header: string;
     type: string;
 };
-
 type PostTypes = {
     body: string;
     title: string;
     id: number;
 };
-
 type MapStatePropsType = {
     singlePost: PostTypes;
 };
-
 type MapDispatchPropsType = {
     createPostTC: (title: string, body: string) => void;
     updatePostTC: (id: number, title: string, body: string) => void;
 };
-
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsTypes;
-
 type RefTypes = HTMLInputElement & FormInstance;
+
 const EditPostUI: React.FC<PropsType> = ({ header, type, createPostTC, singlePost, updatePostTC }) => {
     const form = useRef<RefTypes>(null);
 
@@ -102,6 +97,8 @@ const EditPostUI: React.FC<PropsType> = ({ header, type, createPostTC, singlePos
         }
     };
 
+    const rules = [{ required: true, message: 'This field can`t be empty!' }];
+
     return (
         <>
             <Title level={3}>{header} </Title>
@@ -113,11 +110,11 @@ const EditPostUI: React.FC<PropsType> = ({ header, type, createPostTC, singlePos
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
-                <Item name="title" rules={[{ required: true, message: 'This field can`t be empty!' }]}>
+                <Item name="title" rules={rules}>
                     <Input placeholder="Your new post title." />
                 </Item>
 
-                <Item name="body" rules={[{ required: true, message: 'This field can`t be empty!' }]}>
+                <Item name="body" rules={rules}>
                     <Textarea placeholder="Your new post content." />
                 </Item>
                 <Item style={{ marginTop: 11 }}>
