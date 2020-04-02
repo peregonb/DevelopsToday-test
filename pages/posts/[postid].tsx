@@ -110,7 +110,7 @@ const Post: React.FC<PropsType> = ({ getSinglePostTC, singlePost, deletePostTC, 
                     <CommentInputUI postId={singlePost.id} />
                     <Comments>
                         {singlePost.comments.length ? (
-                            singlePost.comments
+                            [...singlePost.comments]
                                 .reverse()
                                 .map((comment: CommentsType) => <CommentUI key={comment.id} text={comment.body} />)
                         ) : (
