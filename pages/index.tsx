@@ -1,5 +1,5 @@
-import { Card, Modal, Typography } from 'antd';
-import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Card, Typography } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { deletePostTC, getPostsTC } from '../redux/app-reducer';
 import { compose } from 'redux';
@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { PostsType } from '../interfaces/index';
 import { AppStateType } from '../redux/store';
 import Link from 'next/link';
+import { showConfirm } from '../components/ConfirmUI';
 
 const PostSpace = styled.div`
     padding-right: 10px;
@@ -66,36 +67,38 @@ type OwnPropsType = {};
 
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
 
-const IndexPage: React.FC<PropsType> = (props) => {
-    const { confirm } = Modal;
-
-    const error = (): any => {
-        Modal.error({
-            title: 'Failed to delete post!',
-            content: 'Server is not responding.',
-        });
-    };
-    const showConfirm = (postId: number): any => {
-        confirm({
-            title: 'Do you want to delete these post?',
-            icon: <ExclamationCircleOutlined />,
-            onOk() {
-                return new Promise((resolve, reject) => {
-                    props.deletePostTC(postId);
-                    setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-                }).catch(() => error());
-            },
-        });
-    };
+const IndexPage: React.FC<PropsType> = ({ deletePostTC, getPostsTC, posts }) => {
+    // const { confirm } = Modal;
+    //
+    // const error = (): any => {
+    //     Modal.error({
+    //         title: 'Failed to delete post!',
+    //         content: 'Server is not responding.',
+    //     });
+    // };
+    // const showConfirm = (postId: number): any => {
+    //     confirm({
+    //         title: 'Do you want to delete these post?',
+    //         icon: <ExclamationCircleOutlined />,
+    //         onOk() {
+    //             return new Promise((resolve, reject) => {
+    //                 props.deletePostTC(postId);
+    //                 setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+    //             }).catch(() => {
+    //                 error();
+    //             });
+    //         },
+    //     });
+    // };
 
     useEffect(() => {
-        props.getPostsTC();
+        getPostsTC();
     }, []);
 
     return (
         <PostsWrapper>
-            {props.posts ? (
-                props.posts.map((post: PostsType) => (
+            {posts.length ? (
+                posts.map((post: PostsType) => (
                     <PostSpace key={post.id}>
                         <Card
                             title={post.title}
@@ -103,11 +106,7 @@ const IndexPage: React.FC<PropsType> = (props) => {
                                 <Link key={post.id} href={`/posts?slug=${post.id}`} as={`/posts/${post.id}`}>
                                     <EditOutlined key="edit" />
                                 </Link>,
-                                <DeleteOutlined
-                                    onClick={() => showConfirm(post.id)}
-                                    twoToneColor="#eb2f96"
-                                    key="delete"
-                                />,
+                                <DeleteOutlined onClick={() => showConfirm(post.id, deletePostTC)} key="delete" />,
                             ]}
                         >
                             {post.body}

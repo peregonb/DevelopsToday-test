@@ -1,11 +1,7 @@
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import EditPostUI from '../../components/EditPostUI';
 
-const New: NextPage<any> = () => {
-    const router = useRouter();
-    const { slug } = router.query;
-
-    return <p>My Blog Post: {slug}</p>;
+const New: React.FC = () => {
+    return <EditPostUI header={'Create Post'} type={'new'} />;
 };
 
 export default New;
