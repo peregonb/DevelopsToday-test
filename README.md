@@ -1,6 +1,7 @@
-## Тестовое задание для компании DevelopsToday
+## Тестовое задание для компании DevelopsToday.
 
-Просмотреть визуально можно по [ссылке](https://develops-today-test.now.sh/)
+Просмотреть визуально можно по [ссылке](https://develops-today-test.now.sh/).
 
-`yarn run dev` для запуска проекта в режиме разработки
+`yarn run dev` Для запуска проекта в режиме разработки.
 
+![Alt Text](./docs/demo.gif)
