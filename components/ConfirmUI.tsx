@@ -19,7 +19,6 @@ export const showConfirm = (postId: number, thunk: any): any => {
                 Router.push('/');
                 setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
             }).catch(() => {
-                console.log();
                 error();
             });
         },
