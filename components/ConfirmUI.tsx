@@ -1,8 +1,8 @@
-import {Modal} from 'antd';
+import { Modal } from 'antd';
 import Router from 'next/router';
-import {ExclamationCircleOutlined} from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
-const {confirm} = Modal;
+const { confirm } = Modal;
 const error = (): any => {
     Modal.error({
         title: 'Failed to delete post!',
@@ -13,7 +13,7 @@ const error = (): any => {
 export const showConfirm = (postId: number, thunk: any, propsError: boolean) => {
     confirm({
         title: 'Do you want to delete these post?',
-        icon: <ExclamationCircleOutlined/>,
+        icon: <ExclamationCircleOutlined />,
         onOk() {
             return new Promise((resolve, reject) => {
                 thunk(postId);

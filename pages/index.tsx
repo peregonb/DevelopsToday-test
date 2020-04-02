@@ -72,7 +72,7 @@ const IndexPage: React.FC<PropsType> = ({ deletePostTC, getPostsTC, posts, error
     return (
         <PostsWrapper>
             {posts.length ? (
-                posts.map((post: PostsType) => (
+                posts.reverse().map((post: PostsType) => (
                     <PostSpace key={post.id}>
                         <Card
                             title={post.title}
